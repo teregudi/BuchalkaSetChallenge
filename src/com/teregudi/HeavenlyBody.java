@@ -7,7 +7,7 @@ public class HeavenlyBody {
     private final String name;
     private final double orbitalPeriod;
     private final Type bodyType;
-    private final Set<HeavenlyBody> satellites;
+    protected final Set<HeavenlyBody> satellites;
 
     public HeavenlyBody(String name, double orbitalPeriod, Type bodyType){
         this.name = name;
@@ -24,16 +24,32 @@ public class HeavenlyBody {
         return orbitalPeriod;
     }
 
+    public Type getBodyType(){
+        return  this.bodyType;
+    }
+
     public Set<HeavenlyBody> getSatellites() {
         return new HashSet<>(this.satellites);
     }
 
-    public boolean addMoon(HeavenlyBody moon){
-        return this.satellites.add(moon);
+    public boolean addSatellite(HeavenlyBody hb){
+        return false;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public final boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }
+        if (obj instanceof HeavenlyBody){
+            HeavenlyBody hb = (HeavenlyBody)obj;
+            return (hb.getBodyType() == this.bodyType && hb.getName() == this.getName());
+        }
+        return false;
+    }
+
+    @Override
+    public final int hashCode() {
+        return this.getName().hashCode() + this.bodyType.hashCode();
     }
 }
